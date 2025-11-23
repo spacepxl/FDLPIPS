@@ -1,19 +1,19 @@
 from setuptools import setup, find_packages
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='FDL_pytorch',
+    name='FDLPIPS',
     version='1.0',
-    description='Frequency Distribution Loss (FDL) for misalignment data',
+    description='Frequency Distribution Loss (FDL) + LPIPS',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=['FDL_pytorch'],
+    packages=['FDLPIPS'],
     author='Zhangkai Ni, Juncheng Wu, Zian Wang',
     author_email='zkni@tongji.edu.cn',
-    install_requires=["torch>=1.0"],
-    url='https://github.com/eezkni/FDL',
-    keywords = ['pytorch', 'loss', 'image transformation','misalignment'], 
+    install_requires=["torch>=1.0", "torchvision"],
+    url='https://github.com/spacepxl/FDLPIPS',
+    keywords = ['pytorch', 'loss', 'image transformation','misalignment'],
     platforms = "python",
     license='MIT',
 )

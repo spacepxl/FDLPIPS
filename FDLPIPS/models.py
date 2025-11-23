@@ -1,16 +1,15 @@
 import torch
 import torch.nn as nn
-from torchvision import models as tv
-import torchvision
+from torchvision.models import VGG19_Weights, ResNet101_Weights, Inception_V3_Weights, EfficientNet_B7_Weights
+from torchvision.models import vgg, resnet101, inception_v3, efficientnet_b7
 
 
 class VGG(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(VGG, self).__init__()
         
-        vgg_pretrained_features = tv.vgg19(pretrained=pretrained).features
-            
-        # print(vgg_pretrained_features)
+        vgg_pretrained_features = vgg.vgg19(weights=VGG19_Weights.DEFAULT).features
+        
         self.stage1 = torch.nn.Sequential()
         self.stage2 = torch.nn.Sequential()
         self.stage3 = torch.nn.Sequential()
@@ -70,10 +69,9 @@ class VGG(torch.nn.Module):
 class ResNet(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(ResNet, self).__init__()
-
-        model = tv.resnet101(pretrained=pretrained)
+        
+        model = resnet101(weights=ResNet101_Weights.DEFAULT)
         model.eval()
-        # print(model)
 
         self.stage1 =nn.Sequential(
             model.conv1,
@@ -120,9 +118,9 @@ class ResNet(torch.nn.Module):
 class Inception(torch.nn.Module):
     def __init__(self, requires_grad=False, pretrained=True):
         super(Inception, self).__init__()
-        inception = tv.inception_v3(pretrained=pretrained, aux_logits=False)
-            
-        # print(inception)
+        
+        inception = inception_v3(weights=Inception_V3_Weights.DEFAULT, aux_logits=False)
+        
         self.stage1 = torch.nn.Sequential(
             inception.Conv2d_1a_3x3,
             inception.Conv2d_2a_3x3,
@@ -158,7 +156,6 @@ class Inception(torch.nn.Module):
   
     def get_features(self, x):
         h = (x-self.mean)/self.std
-        # h = (x-0.5)*2
         h = self.stage1(h)
         h_relu1_2 = h
         h = self.stage2(h)
@@ -177,9 +174,10 @@ class Inception(torch.nn.Module):
 class EffNet(torch.nn.Module):
     def __init__(self):
         super(EffNet, self).__init__()
-        model = tv.efficientnet_b7(pretrained=True).features#[:6]
+        
+        model = efficientnet_b7(weights=EfficientNet_B7_Weights.DEFAULT).features
         model.eval()
-        # print(model)
+        
         self.stage1 = model[0:2]
         self.stage2 = model[2]
         self.stage3 = model[3]
