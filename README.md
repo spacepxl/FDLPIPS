@@ -5,9 +5,11 @@ https://github.com/richzhang/PerceptualSimilarity/
 
 FDL is a great perceptual loss function, it's extremely sharp and avoids the artifacts that are common with VGG LPIPS, but it comes with its own new artifacts. Using FDL and LPIPS together, they reduce each others' artifacts. However, loading them separately is wasteful. They both use VGG features, so why not combine them? Technically this is not a 1:1 match for LPIPS, because we're using VGG19 features here instead of VGG16, and the layer weighting is also not the same. So don't rely on this to calculate LPIPS as a metric, but it still works just as well as a loss function.
 
+![image-comparison](./imgs/comparison.png)
+
 The parameters for FDL are changed from the original to more sane default values for convenience. Also, the random 2d projections used for FDL can easily be extended to 3d, which greatly improves temporal consistency on video models compared to the 2d version.
 
-![image-comparison](./imgs/comparison.png)
+https://github.com/user-attachments/assets/a3aadf35-bc21-42c0-a3d9-a98728f16ea8
 
 ### Installation:
 
